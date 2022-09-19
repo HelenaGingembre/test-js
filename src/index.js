@@ -8,4 +8,31 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const filmsApiService = new FilmsApiService();
 
-console.log('fetchFilms',filmsApiService.fetchFilms());    
+ 
+
+const refs = {
+    searchForm: document.querySelector('.inner-search-form'),
+}
+
+console.log('fetchFilms', filmsApiService.fetchFilms()); 
+refs.searchForm.addEventListener('submit', onSearch);
+
+function onSearch(e) {
+    e.preventDefaul();
+
+    fetchDataMovies();
+      
+
+}
+
+
+function fetchDataMovies() {
+    filmsApiService.fetchFilms()
+        .then(films => {
+            const totalPages = films.total_pages;
+            console.log('totalPages', totalPages);
+            console.log(' films.results',films.results);
+            return films.results;
+        })
+        
+}
