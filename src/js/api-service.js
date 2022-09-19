@@ -19,27 +19,22 @@ export class FilmsApiService{
    
    
     async fetchFilms() {
-        
         try {
-            const url = `${BASE_URL}/trending/movie/day?api_key=${this.options.key}&page=${this.page}`;
-
-            
+                //https://api.themoviedb.org/3/trending/movie/day?api_key=<<api_key>>
+            const url = `${BASE_URL}/trending/movie/week?api_key=${this.options.key}&page=${this.page}`;
             return await axios.get(url)
                 .then(response => {
                     
                     if (response.status == 200) {
                         this.incrementPage();
                     }
-                    console.log('fetchFilms.data in API: ', response.data);
-                    console.log('fetchFilms.data.result in API: ', response.data.results);
-                    return response.data;
+                   return response.data;
                 })
                 
         } catch (error) {
             console.log('error: ', error.message);
          }
-
-    }
+ }
 
     incrementPage() {
         this.page += 1;
