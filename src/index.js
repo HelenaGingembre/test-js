@@ -1,7 +1,7 @@
 import './js/refs';
-import { FilmotekaApp } from './js/api-service';
+import { FilmsApiService } from './js/api-service';
 
 
-const fetchFilms = new FilmotekaApp();
+const filmsApiService = new FilmsApiService();
 
-console.log('fetchFilms',fetchFilms.getData(1));    
+console.log('fetchFilms',filmsApiService.fetchFilms());    
