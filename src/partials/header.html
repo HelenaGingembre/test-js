@@ -1,0 +1,70 @@
+<!--шапка сайта-->
+<header class="header">
+    <div class="container">
+
+        <a href="./index.html" class="logo header__logo" target="_blank" rel="noopener noreferrer  nofollow">
+            <img src="./images/logo.svg"
+                alt="The Movie Database (TMDB)" width="154" height="20">
+        
+        </a>
+        <button type="button" class="menu-open-btn" data-menu-open>
+            <svg width="40" height="40" aria-label="Mobile menu switch" data-menu-open>
+                <use href="./images/symbol-defs.svg#icon-menu"></use>
+            </svg>
+        </button>
+
+        <nav class="navigation">
+
+            <ul class="menu-list ">
+                <li class="menu-list__item item">
+                    <a href="#" class="link menu-list__link current"
+                        rel="noopener noreferrer  nofollow">HOME</a>
+                </li>
+                <li class="menu-list__item item">
+                    <a href="#" class="link menu-list__link "
+                        rel="noopener noreferrer  nofollow">MY LIBRARY</a>
+                </li>
+                <li class="menu-list__item item">
+                    <a href="" class="link menu-list__link " rel="noopener noreferrer nofollow">Контакты</a>
+                </li>
+            </ul>
+
+        </nav>
+    
+    </div>
+    <!-- mobile menu -->
+    <div class="mob-menu is-hidden" data-menu>
+        <div class="container">
+            <div class="mob-menu-top">
+                <button type="button" class="menu-close-btn" data-menu-close>
+                    <svg width="40" height="40" aria-label="Mobile menu switch">
+                        <use href="./images/symbol-defs.svg#icon-cross"></use>
+                    </svg>
+                </button>
+                <ul class="mob-menu-list list">
+                    <li class="mob-menu-list__item">
+                        <a href="#" class="mob-menu-list__link link">HOME</a>
+                    </li>
+                    <li class="mob-menu-list__item">
+                        <a href="#" class="mob-menu-list__link link">MY LIBRARY</a>
+                    </li>
+                    <li class="mob-menu-list__item">
+                        <a href="#" class="mob-menu-list__link link">Контакты</a>
+                    </li>
+
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+    <div class="search">
+        <form class="inner_search_form" id="inner_search_form" action="/search" method="get" accept-charset="utf-8">
+            <label>
+                <input dir="auto" class="inner_search_input" id="inner_search_v4" name="query" type="text" tabindex="1" autocorrect="off"
+                    autofill="off" autocomplete="off" spellcheck="false"
+                    placeholder="Search for a movie, tv show, person......" value="">
+            </label>
+            <input class="inner_search_submit"  type="submit" value="Search">
+        </form>
+    </div>
+</header>

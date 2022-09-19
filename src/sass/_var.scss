@@ -1,0 +1,69 @@
+$accent-color: rgba(1, 180, 228, 1);
+$accent-color-2: rgba(30, 213, 169, 1);
+$text-color-p: #757575;
+$text-color-h: #212121;
+$text-color-white: #ffffff;
+$text-color-logo: #ffffff;
+$text-color-hover: #ffffff;
+$text-color-logo-footer: #ffffff;
+$form-color-placeholder: rgba(117, 117, 117, 0.5);
+$bg-color-header: radial-gradient(at 30% top, #031d33 0%, #032541 70%);
+$bg-color-btn-search: radial-gradient(
+  to right,
+  rgba(30, 213, 169, 1) 0%,
+  rgba(1, 180, 228, 1) 100%
+);
+$bg-color-btn-search: rgba(1, 180, 228, 1);
+$bg-color-btn-search-hover: rgba(30, 213, 169, 1);
+$bg-color-main: #ffffff;
+$bg-color-card: #ffffff;
+$bg-overlay-accent: rgba(33, 150, 243, 0.9);
+$hero-title-color: #ffffff;
+$btn-text-color: #ffffff;
+$social-color-hover: #ffffff;
+$social-color: #afb1b8;
+$bg-color-hero: #2f303a;
+$bg-color-footer: #2f303a;
+$line-color: #ececec;
+$bg-section-team: #f5f4fa;
+$link-color-address: rgba(255, 255, 255, 0.6);
+$p-color-address: #ffffff;
+$bg-hover-button: #188ce8;
+$bg-social-icon-footer: rgba(255, 255, 255, 0.1);
+
+//placeholders
+%btn {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: $btn-text-color;
+  background-color: $accent-color;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.88;
+  letter-spacing: 0.06em;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+%hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+%is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}

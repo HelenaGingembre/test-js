@@ -28,7 +28,9 @@ export class FilmsApiService{
 
         return await axios.get(url, this.options)
             .then(response => {
-                console.log('fetchFilms.data: ', response.data)
+                console.log('fetchFilms.data: ', response.data);
+                this.incrementPage();
+                
                 return response.data;
             })
             .catch(error => console.log(error));

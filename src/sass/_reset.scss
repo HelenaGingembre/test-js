@@ -1,0 +1,42 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+/* Убираем  маркеры */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Убираем внешние, внутренние отступы */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+li,
+figure,
+figcaption,
+blockquote,
+customer-item-link dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+/* Упрощаем работу с изображениями */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.link,
+.logo {
+  text-decoration: none;
+}
