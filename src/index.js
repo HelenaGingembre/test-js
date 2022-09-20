@@ -14,7 +14,7 @@ const filmsApiService = new FilmsApiService();
 const refs = {
     searchForm: document.querySelector('#inner-search-form'),
     loadMore: document.querySelector('.loader'),
-    gallery: document.querySelector('.gallery'),
+    gallery: document.querySelector('.gallery-list'),
 };
 
 refs.searchForm.addEventListener('submit', onSubmitForm);

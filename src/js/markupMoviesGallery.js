@@ -12,21 +12,16 @@ function markupMoviesGallery(movies) {
     
     const markup = movies.map(({ id, title, poster_path , release_date, genre_ids }) => {
          
-            return ` <li class="movie-card" id="${id}">
-                    <a class="card-link" href="#"><img class="poster-image"
+            return `<li class="gallery-item grid__item" id="${id}">
+                    <a class="movie-card__link grid__link" href="#">
+                    <img class="movie-card__image"
                     src="${`https://image.tmdb.org/t/p/w342/${poster_path}`}" 
                     alt="${title}" loading="lazy" />
                     </a>
-                        <h2 class="card-title">
-                        ${title}
-                        </h2>
-                        <div class="info">
-                        <p class="info-item">
-                        ${genre_ids} 
-                        </p>
-                        <p class="info-item info-item__date">| 
-                        ${release_date}
-                        </p>
+                    <h2 class="movie-card__title">${title}</h2>
+                    <div class="movie-card__info">
+                        <p class="info-item">${genre_ids}</p>
+                        <p class="info-item info-item__date">${release_date}</p>
                     </div>
                     </li>`;
     }).join('');
