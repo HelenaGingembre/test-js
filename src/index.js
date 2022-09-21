@@ -1,4 +1,4 @@
-import './js/refs';
+import { refs } from './js/refs';
 import { FilmsApiService } from './js/api-service';
 
 import SimpleLightbox from "simplelightbox";
@@ -11,13 +11,14 @@ import { markupMoviesGallery } from './js/markupMoviesGallery';
 const DEBOUNCE_DELAY = 500;
 const filmsApiService = new FilmsApiService();
 
-const refs = {
-    searchForm: document.querySelector('#inner-search-form'),
-    loadMore: document.querySelector('.loader'),
-    gallery: document.querySelector('.gallery-list'),
-};
+
 //загружаємо популярні відео при першому завантаженні сайту
 getPopularInLoadStartPage();
+filmsApiService.fetchGetGenres().then(res => {
+    console.log('res genres', res.genres);
+    return res.genres;
+});
+//TODO!!! витягти по іd  методом reduce назву жанру із масиву обєктів
 
 refs.searchForm.addEventListener('submit', onSubmitForm);
 refs.loadMore.addEventListener('click', fetchDataMoviesSearch);
