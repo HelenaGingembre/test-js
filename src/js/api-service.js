@@ -18,7 +18,7 @@ export class FilmsApiService{
     //https://api.themoviedb.org/3/movie/343611?api_key={api_key}
    
    
-    async fetchFilms() {
+    async fetchFilmsPopular() {
         try {
                 //https://api.themoviedb.org/3/trending/movie/day?api_key=<<api_key>>
             const url = `${BASE_URL}/trending/movie/week?api_key=${this.options.key}&page=${this.page}`;
@@ -35,7 +35,23 @@ export class FilmsApiService{
             console.log('error: ', error.message);
          }
  }
-
+ async fetchFilmsSearch(searchQuery) {
+        try {
+                //https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=Jack+Reacher
+            const url = `${SEARCH_URL}?api_key=${this.options.key}&query=${searchQuery}&page=${this.page}`;
+            return await axios.get(url)
+                .then(response => {
+                    
+                    if (response.status == 200) {
+                        this.incrementPage();
+                    }
+                   return response.data;
+                })
+                
+        } catch (error) {
+            console.log('error: ', error.message);
+         }
+ }
     incrementPage() {
         this.page += 1;
     }
@@ -48,8 +64,8 @@ export class FilmsApiService{
         return this.serchQuery;
     }
 
-    set query(newQery) {
-        this.serchQuery = newQery;
+    set query(newQuery) {
+        this.serchQuery = newQuery;
     }
 
 }

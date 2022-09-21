@@ -16,9 +16,11 @@ const refs = {
     loadMore: document.querySelector('.loader'),
     gallery: document.querySelector('.gallery-list'),
 };
+//загружаємо популярні відео при першому завантаженні сайту
+getPopularInLoadStartPage();
 
 refs.searchForm.addEventListener('submit', onSubmitForm);
-refs.loadMore.addEventListener('click', fetchDataMovies);
+refs.loadMore.addEventListener('click', fetchDataMoviesSearch);
 
 function onSubmitForm(event) {
     event.preventDefault();
@@ -32,52 +34,69 @@ function onSubmitForm(event) {
     filmsApiService.serchQuery = currentInput;
     filmsApiService.resetPage();
     clearGalleryContainer();
-    fetchDataMovies();
+    console.log('currentInput:', currentInput );
+    fetchDataMoviesSearch(currentInput);
+    console.log('fetchDataMoviesSearch:', currentInput );
 };
 
-function fetchDataMovies() {
-    
-    filmsApiService.fetchFilms().then(films => {
+function fetchDataMoviesSearch(serchQuery) {
+   
+    filmsApiService.fetchFilmsSearch(serchQuery).then(films => {
         if (films.results.length == 0 ) {
-            console.log('films.results : ', films.results);
+            console.log('fetchDataMoviesSearch films.results : ', films.results);
             Notiflix.Notify.failure(`Sorry, there are no movies matching your search query. Please try again.`);
         }
         else {
-            Notiflix.Notify.success(`Hooray! We found totalMovies=${films.total_results} movies.`);
-            console.log('films.total_pages - ', films.total_results);
-             console.log('films.pages - ', films.page);
-            console.log(films.results);
+            Notiflix.Notify.success(`Hooray! We found totalFilms=${films.total_results} movies.`);
+            console.log('fetchDataMoviesSearch films.total_results - ', films.total_results);
+             console.log('fetchDataMoviesSearch - films.pages - ', films.page);
+            console.log('fetchDataMoviesSearch',films.results);
             return films.results;
         }
+        
     }).then(res => {
            
-            // if (res == undefined) {
-            // console.log('hits undefined',res);
-            //     return;
-            // }
-            
-            renderMoviesGallery(res);
-            // onPageScrolling();  //TODO!!!!!!!!!!
-        
-            // метод lightbox.refresh() 
-            //Знищує та повторно ініціалізує лайтбокс, необхідний, наприклад, для
-            //Ajax або після маніпуляцій dom
-            // lightbox.refresh();
             if (refs.gallery.children.length === this.total_results) {
                 Notiflix.Notify.info(`We're sorry, but you've reached the end of search results.`);
                 setBtnLoadMoreInvisible();
                 // console.log('res.total_results', res.total_results);
             }
-            setBtnLoadMoreVisible();
-        })
+        setBtnLoadMoreVisible();
+        renderMoviesGallery(res);
+        return res;
+    })
+   
 };
+/*---------------------------------------------*/
+
+
+async function getPopularInLoadStartPage() {
+    
+    clearGalleryContainer();
+    filmsApiService.resetPage();
+    filmsApiService.fetchFilmsPopular().then(data => {
+      
+     const newFilms = data.results;
+    //const newFilms= getFilmsPopular(data.movies, genresJSON);
+    // checkIfEmptyBeforeRender(newFilms);
+        renderMoviesGallery(newFilms);
+        return newFilms;
+  });
+}
 
 function clearGalleryContainer() {
     refs.gallery.innerHTML = '';
 }
+
+
+
 function renderMoviesGallery(movies) {
      refs.gallery.insertAdjacentHTML('beforeend', markupMoviesGallery(movies));
 };
+
+
+
+
 
 function setBtnLoadMoreInvisible() {
     refs.loadMore.classList.add('is-hidden');
