@@ -1,5 +1,6 @@
 import { refs } from './js/refs';
 import { FilmsApiService } from './js/api-service';
+import './js/changetheme';
 
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
@@ -14,10 +15,7 @@ const filmsApiService = new FilmsApiService();
 
 //загружаємо популярні відео при першому завантаженні сайту
 getPopularInLoadStartPage();
-filmsApiService.fetchGetGenres().then(res => {
-    console.log('res genres', res.genres);
-    return res.genres;
-});
+filmsApiService.fetchGetGenres();
 //TODO!!! витягти по іd  методом reduce назву жанру із масиву обєктів
 
 refs.searchForm.addEventListener('submit', onSubmitForm);

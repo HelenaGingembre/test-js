@@ -13,5 +13,6 @@ const refs = {
     spinnerPreloader: document.querySelector('.js-preloader-page'),
     anchor: document.querySelector('.anchor'),
     galleryList: document.querySelector('.gallery-list'),
+    arrayGenresItem: document.querySelector('#array-genres-item'),
 }
 export { BASE_URL, API_KEY, SEARCH_URL, GENRE_URL, refs };

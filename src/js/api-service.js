@@ -54,16 +54,12 @@ export class FilmsApiService{
  }
     async fetchGetGenres() {
         try {
-                //https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=Jack+Reacher
+                //https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=en-US
             const url = `${GENRE_URL}`;
             return await axios.get(url)
                 .then(response => {
-                    
-                    if (response.status == 200) {
-                        this.incrementPage();
-                    }
-                    console.log('genres list', response.data);
-                   return response.data;
+                //    console.log('genres fetchGetGenres:', response.data.genres);
+                   return response.data.genres;
                 })
                 
         } catch (error) {

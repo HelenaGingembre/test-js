@@ -1,5 +1,7 @@
 $accent-color: rgba(1, 180, 228, 1);
 $accent-color-2: rgba(30, 213, 169, 1);
+$light-theme-background-color: #ffffff;
+$dark-theme-background-color: #031d33d5;
 $text-color-p: #757575;
 $text-color-h: #212121;
 $text-color-white: #ffffff;
@@ -13,22 +15,22 @@ $bg-color-header: radial-gradient(at 30% top, #031d33 0%, #032541 70%);
 //   rgba(30, 213, 169, 1) 0%,
 //   rgba(1, 180, 228, 1) 100%
 // );
-$bg-color-btn-search: rgba(1, 180, 228, 1);
-$bg-color-btn-search-hover: rgba(30, 213, 169, 1);
-$bg-color-main: #ffffff;
+$bg-color-btn-search: #01b4e4;
+$bg-color-btn-search-hover: #1ed5a9;
+$bg-color-main: #ffffff; //$accent-color-2
 $bg-color-card: #ffffff;
 $bg-overlay-accent: rgba(33, 150, 243, 0.9);
 $hero-title-color: #ffffff;
 $btn-text-color: #ffffff;
-$social-color-hover: #ffffff;
-$social-color: #afb1b8;
+// $social-color-hover: #ffffff;
+// $social-color: #afb1b8;
 $bg-color-hero: #2f303a;
 $bg-color-footer: #2f303a;
-$line-color: #ececec;
-$bg-section-team: #f5f4fa;
-$link-color-address: rgba(255, 255, 255, 0.6);
-$p-color-address: #ffffff;
-$bg-hover-button: #188ce8;
+$line-color: #1ed5a9;
+// $bg-section-team: #f5f4fa;
+// $link-color-address: rgba(255, 255, 255, 0.6);
+// $p-color-address: #ffffff;
+// $bg-hover-button: #188ce8;
 $bg-social-icon-footer: rgba(255, 255, 255, 0.1);
 
 //placeholders
