@@ -3,3 +3,20 @@
   opacity: 0;
   pointer-events: none;
 }
+.btn {
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: $accent-color;
+  color: $text-color-white;
+  border: 1px solid $accent-color;
+  border-radius: 5px;
+
+  margin: 0 auto;
+  padding: 5px 15px;
+}
+.btn:hover,
+.btn:focus {
+  background-color: $accent-color-2;
+  border-color: $accent-color-2;
+  box-shadow: 3px 3px 10px 0px #fff;
+}

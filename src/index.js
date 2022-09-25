@@ -39,7 +39,7 @@ function onSubmitForm(event) {
 };
 
 function fetchDataMoviesSearch(serchQuery) {
-   
+   refs.gallery.dataset.page = 'search';
     filmsApiService.fetchFilmsSearch(serchQuery).then(films => {
         if (films.results.length == 0 ) {
             console.log('fetchDataMoviesSearch films.results : ', films.results);
@@ -70,14 +70,12 @@ function fetchDataMoviesSearch(serchQuery) {
 
 
 async function getPopularInLoadStartPage() {
-    
+    refs.gallery.dataset.page = 'trending';
     clearGalleryContainer();
     filmsApiService.resetPage();
     filmsApiService.fetchFilmsPopular().then(data => {
       
-     const newFilms = data.results;
-    //const newFilms= getFilmsPopular(data.movies, genresJSON);
-    // checkIfEmptyBeforeRender(newFilms);
+        const newFilms = data.results;
         renderMoviesGallery(newFilms);
         return newFilms;
   });
@@ -92,9 +90,6 @@ function clearGalleryContainer() {
 function renderMoviesGallery(movies) {
      refs.gallery.insertAdjacentHTML('beforeend', markupMoviesGallery(movies));
 };
-
-
-
 
 
 function setBtnLoadMoreInvisible() {

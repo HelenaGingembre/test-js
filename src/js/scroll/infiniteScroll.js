@@ -26,10 +26,10 @@ async function onRender(entries) {
           renderTrending(page);
           previousPage = refs.gallery.dataset.page;
           break;
-        // case 'searching':
-        //   renderSearchResult(query, page);
-        //   previousPage = refs.gallery.dataset.page;
-        //   break;
+        case 'search':
+          renderSearchResult(query, page);
+          previousPage = refs.gallery.dataset.page;
+          break;
         // case 'watched':
         //   renderMovieList(refs.gallery.dataset.page, page);
         //   previousPage = refs.gallery.dataset.page;
@@ -38,11 +38,10 @@ async function onRender(entries) {
         //   renderMovieList(refs.gallery.dataset.page, page);
         //   previousPage = refs.gallery.dataset.page;
         //   break;
-          case 'filtering':
-              
+        // case 'filtering':
         //   renderByGenreFilter(document.querySelector('.js-select').value, page)
-          previousPage = refs.gallery.dataset.page;
-          break;
+        //  previousPage = refs.gallery.dataset.page;
+        //  break;
 
         default:
           break;

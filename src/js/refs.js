@@ -8,11 +8,12 @@ const GENRE_URL = `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`;
 const refs = {
     searchForm: document.querySelector('#inner-search-form'),
     searchInput: document.querySelector('#inner-search-input'),
-    loadMore: document.querySelector('.loader'),
     gallery: document.querySelector('.gallery-list'),
+
+    loadMore: document.querySelector('.loader'),
     spinnerPreloader: document.querySelector('.js-preloader-page'),
     anchor: document.querySelector('.anchor'),
-    galleryList: document.querySelector('.gallery-list'),
-    arrayGenresItem: document.querySelector('#array-genres-item'),
+
+    arrayGenresItem: document.querySelector('.info-item__genres'),
 }
 export { BASE_URL, API_KEY, SEARCH_URL, GENRE_URL, refs };

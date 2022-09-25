@@ -4,17 +4,13 @@ import {refs } from './refs';
 
 function markupMoviesGallery(movies) {
     // console.log('markupMoviesGallery', movies);
-    
+  let genresArr = [];
   const markup = movies.map(({ id, title, poster_path, release_date, genre_ids }) => {
     
     let releaseData = !release_date ? 'Not found' : `${release_date.slice(0, 7)}`;
-          
-    console.log('genre_ids:', genre_ids);
-    let  getGenreNameArray = new getGenreName(genre_ids);
-    console.log('genre:', getGenreNameArray.then(arr =>
-    renderGenres(arr)).then(value=> console.log(value))
-    );
-        
+    genresArr = genre_ids;     
+      
+       
     let renderItem = `<li class="gallery-item grid__item" id="${id}">
                     <a class="movie-card__link grid__link" href="#">
                     <img class="movie-card__image"
@@ -24,23 +20,42 @@ function markupMoviesGallery(movies) {
                     
                     <div class="movie-card__info">
                     <h2 class="movie-card__title">${title}</h2>
-                    <p class="info-item" id="array-genres-item=${id}">${getGenreNameArray.then(arr=>renderGenres(arr))}</p>
-                        <p class="info-item info-item__date">${releaseData}</p>
+                   <p class="info-item info-item__genres"
+   id="array-genres-item-${id}">${getGenreName(genre_ids, id).then(res => renderGenresItem(res, id))}</p>
+                    <p class="info-item info-item__date">${releaseData}</p>
                     </div>
                     </li>`;
-    
-          
-            
-                  
+              
     return renderItem;
   
   }).join('');
-
+     
+  
     return markup;
 };
 
-function renderGenres(arr) {
-  console.log('arr', arr.join(','));
-  return `${arr.join(',')}`;
-  }
+//рендерить список жанрів для кожного фільму
+function renderGenresItem(arrIds, id) {
+   let arrayGenresId = document.querySelector(`#array-genres-item-${id}`);
+   const markup = `${arrIds}`;
+   arrayGenresId.innerHTML= markup;
+};
+    
+
+
+
+// function markupGenres(arr) {
+
+//   let getGenreNameArray = new getGenreName(arr);
+
+//   //  console.log('promis',getGenreNameArray.then(data => `${data.join(',')}`));
+//   return getGenreNameArray.then(data => {
+//     if (data === "" || data === undefined) {
+//     return Promise.reject(console.log("Genres be empty"));
+//   }
+//     Promise.resolve(`${data.join(',')}`);
+//   });
+ // }
+
+
 export { markupMoviesGallery };

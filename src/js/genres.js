@@ -3,31 +3,36 @@ import { FilmsApiService } from './api-service.js';
 
 const filmsApiService = new FilmsApiService();
  let listNameGenre = [];
-//ids=[14,28,35]
-export function getGenreName(ids) {
+// let ids=[14,28,35]
+export async function getGenreName(ids) {
     
-    return filmsApiService.fetchGetGenres().then(res => {
-        const listGenres = res;
-        let singleGenre = [];
-        
-        ids.forEach(id => {
-        //    console.log('listGenres.id', listGenres.id);
-               /* .map(listGenre => listGenre.name);
-            return singleGenre.push(...listNameItem);*/
-             
-            const listNameItem = [...listGenres]
-                .filter(listGenre => listGenre.id === id)
-                .map(listGenre => listGenre.name);
-            let array = singleGenre.push(...listNameItem);
-            return array;
-
-        });
-         console.log('ids:', ids, '+singleGenre', singleGenre);
-         console.log('array', singleGenre.join(','));
-        // renderGenres(singleGenre);
-        
-         return singleGenre;
-    });
+    return await filmsApiService.fetchGetGenres()
+        .then(res => {
+            const listGenres = res;
+            let singleGenre = [];
+            
+            ids.forEach(id => {
+                const listNameItem = [...listGenres].filter(item => item.id === id)
+                    .map(item => item.name);
+                return singleGenre.push(...listNameItem);
+            });
+        //  console.log('ids:', ids, '+singleGenre', singleGenre.join(','));
+           
+            return singleGenre.join(',');
+            
+        }).catch(error=> console.log('error', error));
     
 };
 
+
+
+/*----------------------test--- renderList for Film----------------------*/
+/*
+console.log('----[14,28,35]---------',getGenreName([14,28,35]).then(res=>renderList(res)) );
+
+function renderList(res) {
+    const resList = document.querySelector(".res-list");
+    const markup = `<i>${res}</i>`;
+  resList.innerHTML = markup;
+}
+*/
