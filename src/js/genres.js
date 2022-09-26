@@ -18,7 +18,7 @@ export async function getGenreName(ids) {
             });
         //  console.log('ids:', ids, '+singleGenre', singleGenre.join(','));
            
-            return singleGenre.join(',');
+            return singleGenre.join(', ');
             
         }).catch(error=> console.log('error', error));
     

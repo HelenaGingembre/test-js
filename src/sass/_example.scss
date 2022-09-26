@@ -8,11 +8,11 @@
   text-transform: uppercase;
   background-color: $accent-color;
   color: $text-color-white;
-  border: 1px solid $accent-color;
-  border-radius: 5px;
+  margin: 15px auto;
+  padding: 10px 30px;
 
-  margin: 0 auto;
-  padding: 5px 15px;
+  border: 1px solid $accent-color;
+  border-radius: 10px;
 }
 .btn:hover,
 .btn:focus {

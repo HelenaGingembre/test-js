@@ -9,10 +9,10 @@ const refs = {
     searchForm: document.querySelector('#inner-search-form'),
     searchInput: document.querySelector('#inner-search-input'),
     gallery: document.querySelector('.gallery-list'),
-
+    gallerySection: document.querySelector('.gallery'),
     loadMore: document.querySelector('.loader'),
     spinnerPreloader: document.querySelector('.js-preloader-page'),
-    anchor: document.querySelector('.anchor'),
+    scrollArea: document.querySelector('#scrollArea'),
 
     arrayGenresItem: document.querySelector('.info-item__genres'),
 }

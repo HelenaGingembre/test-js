@@ -1,6 +1,8 @@
 import { refs } from './js/refs';
 import { FilmsApiService } from './js/api-service';
 import './js/changetheme';
+import './js/scroll/infiniteScroll';
+import { spinnerMethod } from './js/scroll/spinner';
 
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
@@ -9,47 +11,150 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import { markupMoviesGallery } from './js/markupMoviesGallery';
 
+export { getPopularInLoadStartPage, getFilmsOnSearch};
 const DEBOUNCE_DELAY = 500;
 const filmsApiService = new FilmsApiService();
 
 
 //загружаємо популярні відео при першому завантаженні сайту
-getPopularInLoadStartPage();
+document.addEventListener('DOMContentLoaded', () => {
+  getPopularInLoadStartPage(1);
+});
+// getPopularInLoadStartPage();
+
 filmsApiService.fetchGetGenres();
 //TODO!!! витягти по іd  методом reduce назву жанру із масиву обєктів
 
-refs.searchForm.addEventListener('submit', onSubmitForm);
-refs.loadMore.addEventListener('click', fetchDataMoviesSearch);
+ refs.searchForm.addEventListener('submit', onSubmitForm);
+// refs.loadMore.addEventListener('click', getFilmsOnSearch);
 
 function onSubmitForm(event) {
     event.preventDefault();
+    refs.gallerySection.dataset.page = 'search';
     const currentInput = event.currentTarget.elements.searchQuery.value.trim();
     if (currentInput === '') {
        Notiflix.Notify.info('Sorry, nothing has been entered in the search query. Please try again.');
         clearGalleryContainer();
-        setBtnLoadMoreInvisible();
+        getPopularInLoadStartPage(1);
+        spinnerMethod.removeSpinner();
+        // setBtnLoadMoreInvisible();
        return;
     }
     filmsApiService.serchQuery = currentInput;
-    filmsApiService.resetPage();
-    clearGalleryContainer();
+    // filmsApiService.resetPage();
+    // clearGalleryContainer();
     console.log('currentInput:', currentInput );
-    fetchDataMoviesSearch(currentInput);
-    console.log('fetchDataMoviesSearch:', currentInput );
+    getFilmsOnSearch(currentInput, page=1);
+    console.log('getFilmsOnSearch:', getFilmsOnSearch(currentInput, page=1) );
 };
 
-function fetchDataMoviesSearch(serchQuery) {
-   refs.gallery.dataset.page = 'search';
-    filmsApiService.fetchFilmsSearch(serchQuery).then(films => {
+async function getFilmsOnSearch(serchQuery, page) {
+    refs.gallerySection.dataset.page = 'search';
+    if (page === 1) {
+        clearGalleryContainer();
+    }
+    const filmsOnSearch = await filmsApiService.fetchFilmsSearch(serchQuery, page);
+    //Если бэкенд возвращает пустой массив, значит ничего подходящего найдено небыло.
+    if (filmsOnSearch.results.length === 0 && page === 1) {
+        console.log('filmsOnSearch.results = 0 : ', filmsOnSearch.results);
+        Notiflix.Notify.failure(`Sorry, there are no movies matching your search query. Please try again.`);
+        setTimeout(() => {
+            refs.searchInput.value = '';
+            const event = new Event('input');
+            //dispatchEvent представляет собой последний шаг в процессе create-init-dispatch, 
+            // который служит для отправки событий.
+            refs.searchInput.dispatchEvent(event);
+        }, 2000);
+        return;
+    }
+    console.log('filmsOnSearch.total_pages: ', filmsOnSearch.totalFilmsPages);
+    if (page > filmsOnSearch.totalFilmsPages) {
+        Notiflix.Notify.info(`We're sorry, but you've reached the end of search results.`);
+        spinnerMethod.removeSpinner();
+        return;
+    }
+       
+    Notiflix.Notify.success(`Hooray! We found totalFilms=${filmsOnSearch.total_results} movies.`);
+    console.log('getFilmsOnSearch total_results - ', filmsOnSearch.total_results);
+    console.log('getFilmsOnSearch - page - ', filmsOnSearch.page);
+    console.log('getFilmsOnSearch -results', filmsOnSearch.results);
+        
+    // if (refs.gallery.children.length === filmsOnSearch.total_results) {
+    //        setBtnLoadMoreInvisible();
+    // }
+    // setBtnLoadMoreVisible();
+    renderMoviesGallery(filmsOnSearch.results);
+    onPageScrolling();
+    return filmsOnSearch.results;
+};
+/*---------------------------------------------*/
+
+
+async function getPopularInLoadStartPage(page) {
+    refs.gallerySection.dataset.page = 'trending';
+    if (page === 1) {
+        clearGalleryContainer();
+    }
+    filmsApiService.resetPage();
+    const trendsFilms = await filmsApiService.fetchFilmsPopular().then(data => {
+        // console.log('data trendsFilms:', data );
+        return data;
+    });
+    // console.log('trendsFilms.totalFilmsPages', trendsFilms.total_pages);
+    console.log('trendsFilms.totalFilmsPages', filmsApiService.totalFilmsPages);
+    
+    if (page > filmsApiService.totalFilmsPages) {
+      spinnerMethod.removeSpinner();
+      return;
+    }
+    renderMoviesGallery(trendsFilms.results);
+    onPageScrolling();
+};   
+
+function clearGalleryContainer() {
+    refs.gallery.innerHTML = '';
+};
+
+function renderMoviesGallery(movies) {
+     refs.gallery.insertAdjacentHTML('beforeend', markupMoviesGallery(movies));
+};
+
+function setBtnLoadMoreInvisible() {
+    refs.loadMore.classList.add('is-hidden');
+};
+
+function setBtnLoadMoreVisible() {
+    refs.loadMore.classList.remove('is-hidden');
+};
+
+//  Плавная прокрутка страницы после запроса и отрисовки каждой следующей группы изображений
+function onPageScrolling() { 
+    //возвращает размер элемента и его позицию относительно viewport (часть страницы, показанная на экране, и которую мы видим).
+    const { height: cardHeight } = refs.gallery.firstElementChild.getBoundingClientRect();
+       
+    window.scrollBy({
+        top: cardHeight * 10,
+        behavior: "smooth",
+        });
+}
+
+
+
+
+/*
+filmsApiService.fetchFilmsSearch(serchQuery, page).then(films => {
+        //Если бэкенд возвращает пустой массив, значит ничего подходящего найдено небыло.
         if (films.results.length == 0 ) {
-            console.log('fetchDataMoviesSearch films.results : ', films.results);
+            console.log('getFilmsOnSearch films.results : ', films);
             Notiflix.Notify.failure(`Sorry, there are no movies matching your search query. Please try again.`);
+            // getPopularInLoadStartPage(page)
+            return;
         }
         else {
             Notiflix.Notify.success(`Hooray! We found totalFilms=${films.total_results} movies.`);
-            console.log('fetchDataMoviesSearch films.total_results - ', films.total_results);
-             console.log('fetchDataMoviesSearch - films.pages - ', films.page);
-            console.log('fetchDataMoviesSearch',films.results);
+            console.log('getFilmsOnSearch films.total_results - ', films.total_results);
+            console.log('getFilmsOnSearch - films.pages - ', films.page);
+            console.log('getFilmsOnSearch',films.results);
             return films.results;
         }
         
@@ -62,40 +167,7 @@ function fetchDataMoviesSearch(serchQuery) {
             }
         setBtnLoadMoreVisible();
         renderMoviesGallery(res);
+        onPageScrolling();
         return res;
     })
-   
-};
-/*---------------------------------------------*/
-
-
-async function getPopularInLoadStartPage() {
-    refs.gallery.dataset.page = 'trending';
-    clearGalleryContainer();
-    filmsApiService.resetPage();
-    filmsApiService.fetchFilmsPopular().then(data => {
-      
-        const newFilms = data.results;
-        renderMoviesGallery(newFilms);
-        return newFilms;
-  });
-}
-
-function clearGalleryContainer() {
-    refs.gallery.innerHTML = '';
-}
-
-
-
-function renderMoviesGallery(movies) {
-     refs.gallery.insertAdjacentHTML('beforeend', markupMoviesGallery(movies));
-};
-
-
-function setBtnLoadMoreInvisible() {
-    refs.loadMore.classList.add('is-hidden');
-}
-
-function setBtnLoadMoreVisible() {
-    refs.loadMore.classList.remove('is-hidden');
-}
+  */

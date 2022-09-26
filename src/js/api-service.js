@@ -7,6 +7,8 @@ export class FilmsApiService{
         this.serchQuery = '';
         this.page = 1;
         this.totalPages = 0; //total_pages
+        // this.language = '';
+        // this.allGenres = [];
         this.options = {
             key: API_KEY,
             page: this.page,
@@ -28,15 +30,18 @@ export class FilmsApiService{
                     if (response.status == 200) {
                         this.incrementPage();
                     }
+                    this.totalPages = response.data.total_pages; 
+                    // console.log('this.totalPages', this.totalPages);
                    return response.data;
                 })
                 
         } catch (error) {
             console.log('error: ', error.message);
          }
- }
- async fetchFilmsSearch(searchQuery) {
-        try {
+    };
+ async fetchFilmsSearch(searchQuery, page=1) {
+     try {
+         this.page = page;
                 //https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=Jack+Reacher
             const url = `${SEARCH_URL}?api_key=${this.options.key}&query=${searchQuery}&page=${this.page}`;
             return await axios.get(url)
@@ -45,13 +50,32 @@ export class FilmsApiService{
                     if (response.status == 200) {
                         this.incrementPage();
                     }
+                   this.totalPages = response.data.total_pages;
                    return response.data;
                 })
                 
         } catch (error) {
             console.log('error: ', error.message);
          }
- }
+    };
+   async fetchFilmById(filmId, lang=en-US) {
+        try {
+            //https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=en-US
+            return await axios.get(
+                `${BASE_URL}/movie/${filmId}?api_key=${this.options.key}&language=${lang}`
+            )
+                .then(response => {
+                    if (response.status == 200) {
+                        this.incrementPage();
+                    }
+                    this.totalPages = response.data.total_pages;
+                    return response.data;
+                })
+        }catch (error) {
+            console.log('error: ', error.message);
+         }
+    };
+
     async fetchGetGenres() {
         try {
                 //https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=en-US
@@ -65,7 +89,7 @@ export class FilmsApiService{
         } catch (error) {
             console.log('error: ', error.message);
          }
- }
+    };
     incrementPage() {
         this.page += 1;
     }
@@ -74,6 +98,9 @@ export class FilmsApiService{
         this.page = 1;
     }
 
+    get totalFilmsPages() {
+        return this.totalPages;
+    }
     get query() {
         return this.serchQuery;
     }
@@ -82,4 +109,4 @@ export class FilmsApiService{
         this.serchQuery = newQuery;
     }
 
-}
+};

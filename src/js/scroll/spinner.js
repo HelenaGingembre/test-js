@@ -1,4 +1,5 @@
-import { refs } from '../refs.js';
+import { refs } from '../refs';
+// import { getPopularInLoadStartPage, getFilmsOnSearch } from '../../index';
 
 const preloader = refs.spinnerPreloader;
 

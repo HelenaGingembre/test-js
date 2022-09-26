@@ -36,9 +36,10 @@ function markupMoviesGallery(movies) {
 
 //рендерить список жанрів для кожного фільму
 function renderGenresItem(arrIds, id) {
-   let arrayGenresId = document.querySelector(`#array-genres-item-${id}`);
-   const markup = `${arrIds}`;
-   arrayGenresId.innerHTML= markup;
+  let arrayGenresId = document.querySelector(`#array-genres-item-${id}`);
+    arrIds.length !== 0
+      ? arrayGenresId.innerHTML=`${arrIds}`
+      : 'Genres not found';
 };
     
 
