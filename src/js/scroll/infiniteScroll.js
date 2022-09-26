@@ -21,7 +21,7 @@ let previousPage = refs.gallerySection.dataset.page;
     rootMargin: '0px',
     threshold: 1.0,
 }
-const observer = new IntersectionObserver(debounce(onRender, 500), options);
+const observer = new IntersectionObserver(debounce(onRender, 1000), options);
 // const observer = new IntersectionObserver(onRender, options);
     //Сообщает объекту IntersectionObserver целевой элемент для наблюдения.
 observer.observe(refs.scrollArea);
