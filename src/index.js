@@ -15,7 +15,7 @@ export { getPopularInLoadStartPage, getFilmsOnSearch};
 const DEBOUNCE_DELAY = 500;
 const filmsApiService = new FilmsApiService();
 
-
+// filmsApiService.getAllGenres();
 //загружаємо популярні відео при першому завантаженні сайту
 document.addEventListener('DOMContentLoaded', () => {
   getPopularInLoadStartPage(1);

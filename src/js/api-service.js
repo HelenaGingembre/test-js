@@ -6,6 +6,7 @@ export class FilmsApiService{
     constructor() {
         this.serchQuery = '';
         this.page = 1;
+        // this.allGenres = [];
         this.totalPages = 0; //total_pages
         this.options = {
             key: API_KEY,
@@ -83,7 +84,7 @@ export class FilmsApiService{
             const url = `${GENRE_URL}`;
             return await axios.get(url)
                 .then(response => {
-                //    console.log('genres fetchGetGenres:', response.data.genres);
+                //   console.log('genres fetchGetGenres:', response.data.genres);
                    return response.data.genres;
                 })
                 
@@ -91,6 +92,12 @@ export class FilmsApiService{
             console.log('error: ', error.message);
          }
     };
+//     async getAllGenres() {
+//         const url = `${GENRE_URL}`;
+//     const genres = await axios.get(url);
+//     this.allGenres.push(...genres.data.genres);
+//      console.log(this.allGenres[10].name);
+//   }
     incrementPage() {
         this.page += 1;
     }
