@@ -13,7 +13,7 @@ const refs = {
     loadMore: document.querySelector('.loader'),
     spinnerPreloader: document.querySelector('.js-preloader-page'),
     scrollArea: document.querySelector('#scrollArea'),
-    galleryItem:document.querySelectorAll('.gallery-item'),
+    // galleryItem:document.querySelectorAll('.gallery-item'),
 
     arrayGenresItem: document.querySelector('.info-item__genres'),
 }

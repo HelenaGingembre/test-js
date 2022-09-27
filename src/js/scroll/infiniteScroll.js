@@ -27,7 +27,7 @@ const observer = new IntersectionObserver(debounce(onRender, 1000), options);
 observer.observe(refs.scrollArea);
 
 async function onRender(entries) {
-  let resultList;
+ 
   const query = refs.searchInput.value;
   if (entries[0].isIntersecting) {
     spinnerMethod.addSpinner();

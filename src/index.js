@@ -21,21 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
   getPopularInLoadStartPage(1);
 });
 
-document.addEventListener(
-    'scroll',
-    throttle(async evt => {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-            await addImgOnEvt();
-        }
-    }, 250));
-// getPopularInLoadStartPage();
-
-// filmsApiService.fetchGetGenres();
-//TODO!!! витягти по іd  методом reduce назву жанру із масиву обєктів
-
 refs.searchForm.addEventListener('submit', onSubmitForm);
-refs.galleryItem.addEventListener('click', getFilmById);
-// refs.loadMore.addEventListener('click', getFilmsOnSearch);
+refs.gallery.addEventListener('click', getFilmById);
+
 
 function onSubmitForm(event) {
     event.preventDefault();
@@ -116,7 +104,11 @@ async function getPopularInLoadStartPage(page) {
     onPageScrolling();
 };   
 
-function getFilmById() {
+function getFilmById(event) {
+    console.log(event.target.nodeName);
+    if(event.target.nodeName !== "IMG") {
+    return;
+  }
     console.log('ПРивіт');
     let x = 0;
     return x;
@@ -184,3 +176,12 @@ filmsApiService.fetchFilmsSearch(serchQuery, page).then(films => {
         return res;
     })
   */
+
+    /*document.addEventListener(
+    'scroll',
+    throttle(async evt => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            await addImgOnEvt();
+        }
+    }, 250));
+    */
