@@ -7,8 +7,6 @@ export class FilmsApiService{
         this.serchQuery = '';
         this.page = 1;
         this.totalPages = 0; //total_pages
-        // this.language = '';
-        // this.allGenres = [];
         this.options = {
             key: API_KEY,
             page: this.page,
@@ -27,16 +25,17 @@ export class FilmsApiService{
             return await axios.get(url)
                 .then(response => {
                     
-                    if (response.status == 200) {
-                        this.incrementPage();
-                    }
-                    this.totalPages = response.data.total_pages; 
-                    // console.log('this.totalPages', this.totalPages);
-                   return response.data;
-                })
+                        if (response.status == 200) {
+                            this.incrementPage();
+                        }
+                        this.totalPages = response.data.total_pages;
+                        // console.log('this.totalPages', this.totalPages);
+                        return response.data;
+            })
                 
         } catch (error) {
             console.log('error: ', error.message);
+            
          }
     };
  async fetchFilmsSearch(searchQuery, page=1) {
@@ -50,7 +49,8 @@ export class FilmsApiService{
                     if (response.status == 200) {
                         this.incrementPage();
                     }
-                   this.totalPages = response.data.total_pages;
+                    this.totalPages = response.data.total_pages;
+                    console.log('total_pages in fetchFilmsSearch', this.totalPages);
                    return response.data;
                 })
                 
@@ -58,13 +58,14 @@ export class FilmsApiService{
             console.log('error: ', error.message);
          }
     };
-   async fetchFilmById(filmId, lang=en-US) {
+   async fetchFilmById(filmId) {
         try {
-            //https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=en-US
+            //https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
             return await axios.get(
-                `${BASE_URL}/movie/${filmId}?api_key=${this.options.key}&language=${lang}`
+                `${BASE_URL}/movie/${filmId}?api_key=${this.options.key}&language=en-US`
             )
                 .then(response => {
+
                     if (response.status == 200) {
                         this.incrementPage();
                     }

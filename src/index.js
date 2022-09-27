@@ -20,17 +20,27 @@ const filmsApiService = new FilmsApiService();
 document.addEventListener('DOMContentLoaded', () => {
   getPopularInLoadStartPage(1);
 });
+
+document.addEventListener(
+    'scroll',
+    throttle(async evt => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            await addImgOnEvt();
+        }
+    }, 250));
 // getPopularInLoadStartPage();
 
-filmsApiService.fetchGetGenres();
+// filmsApiService.fetchGetGenres();
 //TODO!!! витягти по іd  методом reduce назву жанру із масиву обєктів
 
- refs.searchForm.addEventListener('submit', onSubmitForm);
+refs.searchForm.addEventListener('submit', onSubmitForm);
+refs.galleryItem.addEventListener('click', getFilmById);
 // refs.loadMore.addEventListener('click', getFilmsOnSearch);
 
 function onSubmitForm(event) {
     event.preventDefault();
     refs.gallerySection.dataset.page = 'search';
+    
     const currentInput = event.currentTarget.elements.searchQuery.value.trim();
     if (currentInput === '') {
        Notiflix.Notify.info('Sorry, nothing has been entered in the search query. Please try again.');
@@ -41,12 +51,9 @@ function onSubmitForm(event) {
        return;
     }
     filmsApiService.serchQuery = currentInput;
-    // filmsApiService.resetPage();
-    // clearGalleryContainer();
     console.log('currentInput:', currentInput );
     getFilmsOnSearch(currentInput, page=1);
-    console.log('getFilmsOnSearch:', getFilmsOnSearch(currentInput, page=1) );
-};
+    };
 
 async function getFilmsOnSearch(serchQuery, page) {
     refs.gallerySection.dataset.page = 'search';
@@ -67,26 +74,24 @@ async function getFilmsOnSearch(serchQuery, page) {
         }, 2000);
         return;
     }
-    console.log('filmsOnSearch.total_pages: ', filmsOnSearch.totalFilmsPages);
-    if (page > filmsOnSearch.totalFilmsPages) {
+    console.log('filmsOnSearch.total_pages: ', filmsOnSearch.total_pages);
+    if (page > filmsOnSearch.total_pages) {
         Notiflix.Notify.info(`We're sorry, but you've reached the end of search results.`);
         spinnerMethod.removeSpinner();
         return;
     }
        
     Notiflix.Notify.success(`Hooray! We found totalFilms=${filmsOnSearch.total_results} movies.`);
-    console.log('getFilmsOnSearch total_results - ', filmsOnSearch.total_results);
-    console.log('getFilmsOnSearch - page - ', filmsOnSearch.page);
-    console.log('getFilmsOnSearch -results', filmsOnSearch.results);
+        console.log('getFilmsOnSearch total_results - ', filmsOnSearch.total_results);
+        console.log('getFilmsOnSearch - page - ', filmsOnSearch.page);
+        console.log('getFilmsOnSearch -results', filmsOnSearch.results);
         
-    // if (refs.gallery.children.length === filmsOnSearch.total_results) {
-    //        setBtnLoadMoreInvisible();
-    // }
-    // setBtnLoadMoreVisible();
     renderMoviesGallery(filmsOnSearch.results);
     onPageScrolling();
     return filmsOnSearch.results;
 };
+
+
 /*---------------------------------------------*/
 
 
@@ -111,20 +116,20 @@ async function getPopularInLoadStartPage(page) {
     onPageScrolling();
 };   
 
+function getFilmById() {
+    console.log('ПРивіт');
+    let x = 0;
+    return x;
+};
+
+
+
 function clearGalleryContainer() {
     refs.gallery.innerHTML = '';
 };
 
 function renderMoviesGallery(movies) {
      refs.gallery.insertAdjacentHTML('beforeend', markupMoviesGallery(movies));
-};
-
-function setBtnLoadMoreInvisible() {
-    refs.loadMore.classList.add('is-hidden');
-};
-
-function setBtnLoadMoreVisible() {
-    refs.loadMore.classList.remove('is-hidden');
 };
 
 //  Плавная прокрутка страницы после запроса и отрисовки каждой следующей группы изображений
@@ -138,7 +143,15 @@ function onPageScrolling() {
         });
 }
 
+/*
+function setBtnLoadMoreInvisible() {
+    refs.loadMore.classList.add('is-hidden');
+};
 
+function setBtnLoadMoreVisible() {
+    refs.loadMore.classList.remove('is-hidden');
+};
+*/
 
 
 /*

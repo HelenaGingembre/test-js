@@ -55,11 +55,7 @@ async function onRender(entries) {
         //   renderMovieList(refs.gallery.dataset.page, page);
         //   previousPage = refs.gallery.dataset.page;
         //   break;
-        // case 'filtering':
-        //   renderByGenreFilter(document.querySelector('.js-select').value, page)
-        //  previousPage = refs.gallery.dataset.page;
-        //  break;
-
+       
         default:
           break;
       }
@@ -71,31 +67,3 @@ async function onRender(entries) {
   }
 }
 
-//     if (page > resultList.total_pages) {
-//       spinnerMethod.removeSpinner();
-//       return;
-//     } else {
-//       render(resultList.results);
-//       spinnerMethod.removeSpinner();
-//     }
-//   } else {
-//     return;
-//   }
-// }
-
-// async function render(data) {
-//   spinnerMethod.addSpinner();
-//   try {
-//     const genres = await fetch.getGenres().then(list => {
-//       return list.genres;
-//     });
-//     const result = await renderGalleryMarkup(data, genres);
-//     refs.galleryList.insertAdjacentHTML('beforeend', movieCardTemplate(result));
-//     const img = document.querySelectorAll('.js-card-img');
-//     if (refs.galleryList.lastElementChild.complete) {
-//       spinnerMethod.removeSpinner();
-//     }
-//   } catch (e) {
-//     spinnerMethod.removeSpinner();
-//   }
-// }
