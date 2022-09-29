@@ -14,7 +14,12 @@ const refs = {
     spinnerPreloader: document.querySelector('.js-preloader-page'),
     scrollArea: document.querySelector('#scrollArea'),
     // galleryItem:document.querySelectorAll('.gallery-item'),
-
+    
+    pagination: document.querySelector('.pagination-popular'),
+    paginationSearch: document.querySelector('.pagination-search'),
+    paginationWatched: document.querySelector('.pagination-watched'),
+    paginationQueue: document.querySelector('.pagination-queue'),
+  
     arrayGenresItem: document.querySelector('.info-item__genres'),
 }
 export { BASE_URL, API_KEY, SEARCH_URL, GENRE_URL, refs };

@@ -1,7 +1,8 @@
 import { refs } from './js/refs';
 import { FilmsApiService } from './js/api-service';
 import './js/changetheme';
-import './js/scroll/infiniteScroll';
+// import './js/scroll/infiniteScroll';
+import { PaginationApiService } from './js/paginationApi';
 import { spinnerMethod } from './js/scroll/spinner';
 
 import SimpleLightbox from "simplelightbox";
@@ -10,12 +11,23 @@ import Notiflix from 'notiflix';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import { markupMoviesGallery } from './js/markupMoviesGallery';
+import { renderPaginationBtn } from './js/pagination';
+import { onPaginateBtnClick } from './js/pagination';
+
+// pagination
+// import './js/paginationSearch';
+import './js/pagination';
+// import './js/renderWatchedPaginationBtn';
+// import './js/renderQueuePaginationBtn'
+// pagination
+
 
 export { getPopularInLoadStartPage, getFilmsOnSearch};
 const DEBOUNCE_DELAY = 500;
 const filmsApiService = new FilmsApiService();
 
-// filmsApiService.getAllGenres();
+
+
 //загружаємо популярні відео при першому завантаженні сайту
 document.addEventListener('DOMContentLoaded', () => {
   getPopularInLoadStartPage(1);
@@ -23,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 refs.searchForm.addEventListener('submit', onSubmitForm);
 refs.gallery.addEventListener('click', getFilmById);
+refs.pagination.addEventListener('click', onPaginateBtnClick);
 
 
 function onSubmitForm(event) {
@@ -89,17 +102,19 @@ async function getPopularInLoadStartPage(page) {
         clearGalleryContainer();
     }
     filmsApiService.resetPage();
-    const trendsFilms = await filmsApiService.fetchFilmsPopular().then(data => {
-        // console.log('data trendsFilms:', data );
-        return data;
-    });
-    // console.log('trendsFilms.totalFilmsPages', trendsFilms.total_pages);
+    
+    const trendsFilms = await filmsApiService.fetchFilmsPopular()
+        .then(data => data);
+    const max_page = trendsFilms.total_pages;
+    console.log('trendsFilms.totalFilmsPages', trendsFilms.total_pages);
     console.log('trendsFilms.totalFilmsPages', filmsApiService.totalFilmsPages);
     
     if (page > filmsApiService.totalFilmsPages) {
       spinnerMethod.removeSpinner();
       return;
     }
+    
+    renderPaginationBtn(max_page);
     renderMoviesGallery(trendsFilms.results);
     onPageScrolling();
 };   
