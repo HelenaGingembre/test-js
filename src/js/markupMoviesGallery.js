@@ -3,7 +3,7 @@ import {refs } from './refs';
 
 
 function markupMoviesGallery(movies) {
-    // console.log('markupMoviesGallery', movies);
+   console.log('markupMoviesGallery', movies);
   let genresArr = [];
   const markup = movies.map(({ id, title, poster_path, release_date, genre_ids }) => {
     

@@ -104,10 +104,10 @@ export async function onPaginateBtnClick(e) {
     // const markupPagin = data.results.map(item => markupMoviesGallery(item)).join('');
      // refs.gallery.insertAdjacentHTML('beforeend', markupPagin);
         console.log('onPaginateBtnClick data.results:',data.results);
-        return data.results;
+        renderMoviesGallery(data.results);
      
     });
-    renderMoviesGallery(movie);
+    return movie;
 }
 
 /*
