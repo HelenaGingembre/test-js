@@ -135,7 +135,7 @@ function clearGalleryContainer() {
     refs.gallery.innerHTML = '';
 };
 
-function renderMoviesGallery(movies) {
+export function renderMoviesGallery(movies) {
      refs.gallery.insertAdjacentHTML('beforeend', markupMoviesGallery(movies));
 };
 

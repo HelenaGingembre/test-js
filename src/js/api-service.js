@@ -19,8 +19,9 @@ export class FilmsApiService{
     //https://api.themoviedb.org/3/movie/343611?api_key={api_key}
    
    
-    async fetchFilmsPopular() {
+    async fetchFilmsPopular(page=1) {
         try {
+            this.page = page;
                 //https://api.themoviedb.org/3/trending/movie/day?api_key=<<api_key>>
             const url = `${BASE_URL}/trending/movie/week?api_key=${this.options.key}&page=${this.page}`;
             return await axios.get(url)

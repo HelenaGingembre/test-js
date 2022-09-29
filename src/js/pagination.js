@@ -2,37 +2,37 @@
 import { FilmsApiService } from "./api-service";
 import { refs } from './refs';
 import { markupMoviesGallery } from './markupMoviesGallery';
-// import { getPopularInLoadStartPage, getFilmsOnSearch } from './../index';
+import { renderMoviesGallery } from './../index';
 
 const filmsApiService = new FilmsApiService();
 
 export function renderPaginationBtn(e) {
     refs.pagination.innerHTML = '';
     const per_page_max = e;
-    console.log('per_page_max - ', per_page_max);
+    console.log('renderPaginationBtn per_page_max - ', per_page_max);
     let current_page = 1;
 
     function appendBtn(i, threepoint) {
         const activeBtn = current_page === i;
-        const button = document.createElement('li');
-        button.classList.add('pagination-list-item');
+        const liPagin = document.createElement('li');
+        liPagin.classList.add('pagination-list-item');
         if (threepoint === true) {
-        button.innerHTML = '...';
-        button.disabled = true;
-        refs.pagination.append(button);
+        liPagin.innerHTML = '...';
+        liPagin.disabled = true;
+        refs.pagination.append(liPagin);
         return false;
         }
         if (activeBtn) {
-        button.classList.add('pag-activ');
+        liPagin.classList.add('pag-activ');
         }
-        button.disabled = activeBtn;
-        button.innerHTML = i;
-        button.addEventListener('click', () => {
+        liPagin.disabled = activeBtn;
+        liPagin.innerHTML = i;
+        liPagin.addEventListener('click', () => {
         current_page = i;
         refs.pagination.innerHTML = '';
         logic();
         });
-        refs.pagination.append(button);
+        refs.pagination.append(liPagin);
     }
     
     logic();
@@ -94,19 +94,20 @@ export function renderPaginationBtn(e) {
 
 export async function onPaginateBtnClick(e) {
     console.log('onPaginateBtnClick(e): ',e.target.nodeName);
-    if (e.target.nodeName !== 'li') {
+    if (e.target.nodeName !== 'LI') {
         return;
     }
   refs.gallery.innerHTML = '';
     let pageNum = e.target.innerText;
     console.log('pageNum-', pageNum);
-    filmsApiService.fetchFilmsPopular(pageNum).then(data => {
+    const movie =filmsApiService.fetchFilmsPopular(pageNum).then(data => {
     // const markupPagin = data.results.map(item => markupMoviesGallery(item)).join('');
      // refs.gallery.insertAdjacentHTML('beforeend', markupPagin);
         console.log('onPaginateBtnClick data.results:',data.results);
-         renderMoviesGallery(data.results);
+        return data.results;
      
-  });
+    });
+    renderMoviesGallery(movie);
 }
 
 /*
