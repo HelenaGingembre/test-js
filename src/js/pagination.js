@@ -1,7 +1,7 @@
 // import { PaginationApiService } from "./paginationApi";
 import { FilmsApiService } from "./api-service";
 import { refs } from './refs';
-import { markupMoviesGallery } from './markupMoviesGallery';
+//import { markupMoviesGallery } from './markupMoviesGallery';
 import { renderMoviesGallery } from './../index';
 
 const filmsApiService = new FilmsApiService();
@@ -28,9 +28,9 @@ export function renderPaginationBtn(e) {
         liPagin.disabled = activeBtn;
         liPagin.innerHTML = i;
         liPagin.addEventListener('click', () => {
-        current_page = i;
-        refs.pagination.innerHTML = '';
-        logic();
+          current_page = i;
+          refs.pagination.innerHTML = '';
+            logic();
         });
         refs.pagination.append(liPagin);
     }
@@ -99,45 +99,54 @@ export async function onPaginateBtnClick(e) {
     }
   refs.gallery.innerHTML = '';
     let pageNum = e.target.innerText;
-    console.log('pageNum-', pageNum);
-    const movie =filmsApiService.fetchFilmsPopular(pageNum).then(data => {
+  console.log('pageNum-', pageNum);
+  
+  displayList(pageNum);
+    /*const movie =filmsApiService.fetchFilmsPopular(pageNum).then(data => {
     // const markupPagin = data.results.map(item => markupMoviesGallery(item)).join('');
      // refs.gallery.insertAdjacentHTML('beforeend', markupPagin);
         console.log('onPaginateBtnClick data.results:',data.results);
         renderMoviesGallery(data.results);
      
     });
-    return movie;
+    return movie;*/
 }
+function displayList(pageNum){
+    const movie = filmsApiService.fetchFilmsPopular(pageNum)
+      .then(data => renderMoviesGallery(data.results));
+    }
 
-/*
 async function main() {
   const postsData = await getData();
   let currentPage = 1;
   let rows = 10;
-
+/*
   function displayList(arrData, rowPerPage, page) {
-    const postsEl = document.querySelector('.posts');
-    postsEl.innerHTML = "";
+    //const postsEl = document.querySelector('.posts');
+    //postsEl.innerHTML = "";
+    refs.gallery.innerHTML = "";
     page--;
 
     const start = rowPerPage * page;
     const end = start + rowPerPage;
     const paginatedData = arrData.slice(start, end);
 
-    paginatedData.forEach((el) => {
-      const postEl = document.createElement("div");
-      postEl.classList.add("post");
-      postEl.innerText = `${el.title}`;
-      postsEl.appendChild(postEl);
-    })
-  }
+   // paginatedData.forEach((el) => {
+    //   const postEl = document.createElement("div");
+    //   postEl.classList.add("post");
+    //   postEl.innerText = `${el.title}`;
+    //   postsEl.appendChild(postEl);
+     
+    //})
+  }*/
+  
 
   function displayPagination(arrData, rowPerPage) {
     const paginationEl = document.querySelector('.pagination');
-    const pagesCount = Math.ceil(arrData.length / rowPerPage);
-    const ulEl = document.createElement("ul");
-    ulEl.classList.add('pagination__list');
+    // const pagesCount = Math.ceil(arrData.length / rowPerPage);
+    const pagesCount =arrData.total_pages;
+    const ulEl = document.querySelector(".pagination__list");
+    ulEl.classList.add('pagination-popular');
 
     for (let i = 0; i < pagesCount; i++) {
       const liEl = displayPaginationBtn(i + 1);
@@ -148,26 +157,25 @@ async function main() {
 
   function displayPaginationBtn(page) {
     const liEl = document.createElement("li");
-    liEl.classList.add('pagination__item')
-    liEl.innerText = page
+    liEl.classList.add('pagination-list-item');
+    liEl.innerText = page;
 
-    if (currentPage == page) liEl.classList.add('pagination__item--active');
+    if (currentPage == page) liEl.classList.add('pag-active');
 
     liEl.addEventListener('click', () => {
-      currentPage = page
+      currentPage = page;
       displayList(postsData, rows, currentPage)
 
-      let currentItemLi = document.querySelector('li.pagination__item--active');
-      currentItemLi.classList.remove('pagination__item--active');
+      let currentItemLi = document.querySelector('li.pag-active');
+      currentItemLi.classList.remove('pag-active');
 
-      liEl.classList.add('pagination__item--active');
+      liEl.classList.add('pag-active');
     })
 
     return liEl;
   }
 
-  displayList(postsData, rows, currentPage);
+  
+  displayList(page);
   displayPagination(postsData, rows);
 }
-
-main();*/
